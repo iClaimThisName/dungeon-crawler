@@ -1,10 +1,12 @@
 let wallTile = "W";
 let exitTile = "E";
+let pathTile = "p";
 let chestTile = "c";
 let monsterTile = "m";
 let emptyTile = "-";
 
 let mapArray = [];
+let exitCoords;
 
 const createMapArray = (height, width) => {
     for (let y = 0; y < height; y++) {
@@ -60,6 +62,17 @@ const createExit = () => {
     console.log(`exit placed at y: ${y + 1} and x: ${x + 1}`);
 
     mapArray[y][x] = exitTile;
+    exitCoords = mapArray[y][x];
+};
+
+const createMainPath = () => {
+    //make moveLeft() moveRight() etc functions
+    //start one tile away from exit, in the direction the exit is facing
+    //add lastMove variable so the next move will never undo the last one
+    //calculate how many tiles 40% (<- up to change) of the available map space is
+    //continue newTile() that many times
+    //newTile() doesn't go over a spot that's already mainPath, unless all other
+    //options are invalid
 };
 
 const createMap = (height = 5, width = 5) => {
