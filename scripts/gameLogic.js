@@ -13,17 +13,14 @@ const createMapArray = (width, height) => {
             mapArray[i].push(emptyTile);
         }
     }
-    console.log(mapArray);
 };
 
 const createOuterWalls = () => {
-    //top and bottom walls
     for (let i = 0; i < mapArray[0].length; i++) {
         mapArray[0][i] = wallTile;
         mapArray[mapArray.length - 1][i] = wallTile;
     }
 
-    //left and right walls
     for (let i = 0; i < mapArray.length; i++) {
         mapArray[i][0] = wallTile;
         mapArray[i][mapArray[0].length - 1] = wallTile;
@@ -31,8 +28,6 @@ const createOuterWalls = () => {
 };
 
 const createExit = () => {
-    //only loops once if placement is wrong, make it loop until
-    //the placement is valid
     let x;
     let y;
     let min = 1;
@@ -67,8 +62,6 @@ const createExit = () => {
 
     exitPlacement();
     mapArray[y][x] = exitTile;
-
-    console.log(mapArray);
 };
 
 const createMap = (width = 5, height = 5) => {
@@ -76,6 +69,7 @@ const createMap = (width = 5, height = 5) => {
     createMapArray(width, height);
     createOuterWalls();
     createExit();
+    console.log(mapArray);
     //create path from exit to start
     //add branches from the main path that are between 1-5 tiles long
     //add chests on spots surrounded by 3 tiles (so it doesn't block the way)
@@ -83,13 +77,3 @@ const createMap = (width = 5, height = 5) => {
 };
 
 createMap(3, 6);
-
-/////////////////////////////////////
-
-class monster {
-    HP;
-    DMG;
-
-    attack() {}
-    die() {}
-}
