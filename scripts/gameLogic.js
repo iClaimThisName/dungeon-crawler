@@ -34,33 +34,30 @@ const createExit = () => {
     let maxX = mapArray[0].length - 2;
     let maxY = mapArray.length - 2;
 
-    const exitPlacement = () => {
-        switch (Math.floor(Math.random() * 4)) {
-            case 0:
-                x = Math.floor(Math.random() * (maxX - min + 1)) + min;
-                y = 0;
-                break;
+    switch (Math.floor(Math.random() * 4)) {
+        case 0:
+            x = Math.floor(Math.random() * (maxX - min + 1)) + min;
+            y = 0;
+            break;
 
-            case 1:
-                x = Math.floor(Math.random() * (maxX - min + 1)) + min;
-                y = mapArray.length - 1;
-                break;
+        case 1:
+            x = Math.floor(Math.random() * (maxX - min + 1)) + min;
+            y = mapArray.length - 1;
+            break;
 
-            case 2:
-                x = 0;
-                y = Math.floor(Math.random() * (maxY - min + 1)) + min;
-                break;
+        case 2:
+            x = 0;
+            y = Math.floor(Math.random() * (maxY - min + 1)) + min;
+            break;
 
-            case 3:
-                x = mapArray[0].length - 1;
-                y = Math.floor(Math.random() * (maxY - min + 1)) + min;
-                break;
-        }
+        case 3:
+            x = mapArray[0].length - 1;
+            y = Math.floor(Math.random() * (maxY - min + 1)) + min;
+            break;
+    }
 
-        console.log(`exit placed at ${x}, ${y}`);
-    };
+    console.log(`exit placed at ${x}, ${y}`);
 
-    exitPlacement();
     mapArray[y][x] = exitTile;
 };
 
