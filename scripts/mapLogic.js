@@ -6,64 +6,65 @@ let emptyTile = "-";
 
 let mapArray = [];
 
-const createMapArray = (width, height) => {
-    for (let i = 0; i < height; i++) {
-        mapArray[i] = [];
-        for (let a = 0; a < width; a++) {
-            mapArray[i].push(emptyTile);
+const createMapArray = (height, width) => {
+    for (let y = 0; y < height; y++) {
+        mapArray[y] = [];
+
+        for (let x = 0; x < width; x++) {
+            mapArray[y].push(emptyTile);
         }
     }
 };
 
 const createOuterWalls = () => {
-    for (let i = 0; i < mapArray[0].length; i++) {
-        mapArray[0][i] = wallTile;
-        mapArray[mapArray.length - 1][i] = wallTile;
+    for (let y = 0; y < mapArray.length; y++) {
+        mapArray[y][0] = wallTile;
+        mapArray[y][mapArray[0].length - 1] = wallTile;
     }
 
-    for (let i = 0; i < mapArray.length; i++) {
-        mapArray[i][0] = wallTile;
-        mapArray[i][mapArray[0].length - 1] = wallTile;
+    for (let x = 0; x < mapArray[0].length; x++) {
+        mapArray[0][x] = wallTile;
+        mapArray[mapArray.length - 1][x] = wallTile;
     }
 };
 
 const createExit = () => {
-    let x;
     let y;
+    let x;
     let min = 1;
-    let maxX = mapArray[0].length - 2;
     let maxY = mapArray.length - 2;
+    let maxX = mapArray[0].length - 2;
 
     switch (Math.floor(Math.random() * 4)) {
         case 0:
-            x = Math.floor(Math.random() * (maxX - min + 1)) + min;
             y = 0;
+            x = Math.floor(Math.random() * (maxX - min + 1)) + min;
             break;
 
         case 1:
-            x = Math.floor(Math.random() * (maxX - min + 1)) + min;
             y = mapArray.length - 1;
+            x = Math.floor(Math.random() * (maxX - min + 1)) + min;
             break;
 
         case 2:
-            x = 0;
             y = Math.floor(Math.random() * (maxY - min + 1)) + min;
+            x = 0;
             break;
 
         case 3:
-            x = mapArray[0].length - 1;
             y = Math.floor(Math.random() * (maxY - min + 1)) + min;
+            x = mapArray[0].length - 1;
             break;
     }
 
-    console.log(`exit placed at ${x}, ${y}`);
+    console.log(`exit placed at y: ${y + 1} and x: ${x + 1}`);
 
     mapArray[y][x] = exitTile;
 };
 
-const createMap = (width = 5, height = 5) => {
+const createMap = (height = 5, width = 5) => {
     mapArray = [];
-    createMapArray(width, height);
+    createMapArray(height, width);
     createOuterWalls();
     createExit();
     console.log(mapArray);
@@ -73,4 +74,4 @@ const createMap = (width = 5, height = 5) => {
     //add monsters on random spots. The amount is based on the map size
 };
 
-createMap(3, 6);
+createMap(6, 3);
