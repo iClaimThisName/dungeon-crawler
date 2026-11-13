@@ -1,4 +1,5 @@
 let wallTile = "W";
+let startTile = "S";
 let exitTile = "E";
 let pathTile = "p";
 let chestTile = "c";
@@ -62,17 +63,65 @@ const createExit = () => {
     console.log(`exit placed at y: ${y + 1} and x: ${x + 1}`);
 
     mapArray[y][x] = exitTile;
-    exitCoords = mapArray[y][x];
+    exitCoords = [y, x];
+
+    console.log(exitCoords);
 };
 
 const createMainPath = () => {
-    //make moveLeft() moveRight() etc functions
+    let isFirstMove = true;
+    let dir;
+    let lastDir;
+    let y = exitCoords[0];
+    let x = exitCoords[1];
+    let tileAmount = Math.floor(
+        0.2 * ((mapArray.length - 2) * (mapArray[0].length - 2)),
+    );
+
+    console.log("required mainPath tiles: " + tileAmount);
+
+    if (isFirstMove) {
+        exitCoords[0] === 0 ? (dir = "down") : "";
+        exitCoords[0] === mapArray.length - 1 ? (dir = "up") : "";
+        exitCoords[1] === 0 ? (dir = "right") : "";
+        exitCoords[1] === mapArray[0].length - 1 ? (dir = "left") : "";
+
+        console.log("direction to go is: " + dir);
+        isFirstMove = false;
+    }
+
+    switch (dir) {
+        case "left":
+            x--;
+            break;
+        case "right":
+            x++;
+            break;
+        case "up":
+            y--;
+            break;
+        case "down":
+            y++;
+            break;
+    }
+
+    mapArray[y][x] = pathTile;
+
     //start one tile away from exit, in the direction the exit is facing
     //add lastMove variable so the next move will never undo the last one
+    //if newTile() === emptyTile newTile = pathTile and lastMove = newTile
+    //newTile() doesn't go over a spot that's mainPath, unless all other options are invalid
     //calculate how many tiles 40% (<- up to change) of the available map space is
-    //continue newTile() that many times
-    //newTile() doesn't go over a spot that's already mainPath, unless all other
-    //options are invalid
+    //continue addTile() that many times
+    //when done, make lastMove = startTile;
+};
+
+const printMap = () => {
+    for (element in mapArray) {
+        newP = document.createElement("p");
+        newP.textContent = mapArray[element];
+        document.querySelector(".test").appendChild(newP);
+    }
 };
 
 const createMap = (height = 5, width = 5) => {
@@ -80,11 +129,13 @@ const createMap = (height = 5, width = 5) => {
     createMapArray(height, width);
     createOuterWalls();
     createExit();
-    console.log(mapArray);
     //create path from exit to start
+    createMainPath();
+    console.log(mapArray);
+    printMap();
     //add branches from the main path that are between 1-5 tiles long
     //add chests on spots surrounded by 3 tiles (so it doesn't block the way)
     //add monsters on random spots. The amount is based on the map size
 };
 
-createMap(6, 3);
+createMap(15, 15);
