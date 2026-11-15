@@ -60,69 +60,147 @@ const createExit = () => {
             break;
     }
 
-    console.log(`exit placed at y: ${y + 1} and x: ${x + 1}`);
+    console.log(`exit placed at y: ${y} and x: ${x}`);
 
     mapArray[y][x] = exitTile;
     exitCoords = [y, x];
-
-    console.log(exitCoords);
 };
 
-const createMainPath = () => {
+const createPath = () => {
     let isFirstMove = true;
     let dir;
-    let lastDir;
+    let lastSpot;
     let y = exitCoords[0];
     let x = exitCoords[1];
     let tileAmount = Math.floor(
-        0.2 * ((mapArray.length - 2) * (mapArray[0].length - 2)),
+        0.5 * ((mapArray.length - 2) * (mapArray[0].length - 2)),
     );
+    console.log("required path tiles: " + tileAmount);
 
-    console.log("required mainPath tiles: " + tileAmount);
+    const setLastSpot = () => {
+        if (dir === "left") {
+            return "right";
+        }
+        if (dir === "right") {
+            return "left";
+        }
+        if (dir === "up") {
+            return "down";
+        }
+        if (dir === "down") {
+            return "up";
+        }
+    };
 
-    if (isFirstMove) {
-        exitCoords[0] === 0 ? (dir = "down") : "";
-        exitCoords[0] === mapArray.length - 1 ? (dir = "up") : "";
-        exitCoords[1] === 0 ? (dir = "right") : "";
-        exitCoords[1] === mapArray[0].length - 1 ? (dir = "left") : "";
+    const isWall = (direction, y, x) => {
+        switch (direction) {
+            case "left":
+                if (
+                    mapArray[y][x - 1] === wallTile ||
+                    mapArray[y][x - 1] === exitTile
+                ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            case "right":
+                if (
+                    mapArray[y][x + 1] === wallTile ||
+                    mapArray[y][x + 1] === exitTile
+                ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            case "up":
+                if (
+                    mapArray[y - 1][x] === wallTile ||
+                    mapArray[y - 1][x] === exitTile
+                ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            case "down":
+                if (
+                    mapArray[y + 1][x] === wallTile ||
+                    mapArray[y + 1][x] === exitTile
+                ) {
+                    return true;
+                } else {
+                    return false;
+                }
+        }
+    };
 
-        console.log("direction to go is: " + dir);
-        isFirstMove = false;
-    }
+    const bordersPath = (direction, y, x) => {};
 
-    switch (dir) {
-        case "left":
-            x--;
-            break;
-        case "right":
-            x++;
-            break;
-        case "up":
-            y--;
-            break;
-        case "down":
-            y++;
-            break;
-    }
+    const setDir = () => {
+        if (!isFirstMove) {
+            do {
+                switch (Math.floor(Math.random() * 6)) {
+                    case 0:
+                        dir = "left";
+                        break;
+                    case 1:
+                        dir = "right";
+                        break;
+                    case 2:
+                        dir = "up";
+                        break;
+                    case 3:
+                        dir = "down";
+                        break;
+                    //make it more likely to move straight
+                    case 4 & 5:
+                        break;
+                }
+            } while (dir === lastSpot || isWall(dir, y, x));
+        } else {
+            exitCoords[0] === 0 ? (dir = "down") : "";
+            exitCoords[0] === mapArray.length - 1 ? (dir = "up") : "";
+            exitCoords[1] === 0 ? (dir = "right") : "";
+            exitCoords[1] === mapArray[0].length - 1 ? (dir = "left") : "";
 
-    mapArray[y][x] = pathTile;
+            console.log("direction to go is: " + dir);
+            isFirstMove = false;
+        }
+    };
+    const placeTiles = () => {
+        for (i = 0; i <= tileAmount; i++) {
+            setDir();
+            lastSpot = setLastSpot();
 
-    //start one tile away from exit, in the direction the exit is facing
-    //add lastMove variable so the next move will never undo the last one
-    //if newTile() === emptyTile newTile = pathTile and lastMove = newTile
-    //newTile() doesn't go over a spot that's mainPath, unless all other options are invalid
-    //calculate how many tiles 40% (<- up to change) of the available map space is
-    //continue addTile() that many times
-    //when done, make lastMove = startTile;
+            switch (dir) {
+                case "left":
+                    x--;
+                    break;
+                case "right":
+                    x++;
+                    break;
+                case "up":
+                    y--;
+                    break;
+                case "down":
+                    y++;
+                    break;
+            }
+
+            if (i === tileAmount) {
+                mapArray[y][x] = startTile;
+            } else {
+                mapArray[y][x] = pathTile;
+            }
+        }
+    };
+
+    placeTiles();
+
+    //if bordersPath(), change dir one more time (even if it still borders a pathTile)
+    //place the starting tile on the path tile furthest from the exit tile
 };
 
 const printMap = () => {
-    /* for (element in mapArray) {
-        newP = document.createElement("p");
-        newP.textContent = mapArray[element];
-        document.querySelector(".test").appendChild(newP);
-    } */
-
     const cols = mapArray.length;
     const rows = mapArray[0].length;
     const grid = document.querySelector(".test-map");
@@ -136,6 +214,18 @@ const printMap = () => {
         for (element in mapArray[currentRow]) {
             newDiv = document.createElement("div");
             newDiv.textContent = mapArray[currentRow][element];
+
+            switch (mapArray[currentRow][element]) {
+                case exitTile:
+                    newDiv.style.color = "red";
+                    break;
+                case startTile:
+                    newDiv.style.color = "blue";
+                    break;
+                case pathTile:
+                    newDiv.style.color = "gray";
+            }
+
             grid.appendChild(newDiv);
         }
     }
@@ -147,7 +237,7 @@ const createMap = (height = 5, width = 5) => {
     createOuterWalls();
     createExit();
     //create path from exit to start
-    createMainPath();
+    createPath();
     console.log(mapArray);
     printMap();
     //add branches from the main path that are between 1-5 tiles long
