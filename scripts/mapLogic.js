@@ -117,10 +117,27 @@ const createMainPath = () => {
 };
 
 const printMap = () => {
-    for (element in mapArray) {
+    /* for (element in mapArray) {
         newP = document.createElement("p");
         newP.textContent = mapArray[element];
         document.querySelector(".test").appendChild(newP);
+    } */
+
+    const cols = mapArray.length;
+    const rows = mapArray[0].length;
+    const grid = document.querySelector(".test-map");
+
+    grid.style.setProperty("--map-col", cols);
+    grid.style.setProperty("--map-row", rows);
+
+    for (element in mapArray) {
+        let currentRow = element;
+
+        for (element in mapArray[currentRow]) {
+            newDiv = document.createElement("div");
+            newDiv.textContent = mapArray[currentRow][element];
+            grid.appendChild(newDiv);
+        }
     }
 };
 
