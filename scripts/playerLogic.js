@@ -1,5 +1,6 @@
 let playerPos = startCoords;
 let gameWon = false;
+let steps = 0;
 
 let lastKey;
 let keyDown;
@@ -27,12 +28,14 @@ const movePlayer = (dir) => {
                 if (isExit(dir, playerPos[0], playerPos[1])) {
                     mapArray[playerPos[0]][playerPos[1]] = pathTile;
                     playerPos[1] = playerPos[1] - 1;
+                    steps++;
                     setWin();
                     break;
                 }
 
                 mapArray[playerPos[0]][playerPos[1]] = pathTile;
                 playerPos[1] = playerPos[1] - 1;
+                steps++;
                 break;
 
             case "right":
@@ -46,12 +49,14 @@ const movePlayer = (dir) => {
                 if (isExit(dir, playerPos[0], playerPos[1])) {
                     mapArray[playerPos[0]][playerPos[1]] = pathTile;
                     playerPos[1] = playerPos[1] + 1;
+                    steps++;
                     setWin();
                     break;
                 }
 
                 mapArray[playerPos[0]][playerPos[1]] = pathTile;
                 playerPos[1] = playerPos[1] + 1;
+                steps++;
                 break;
 
             case "up":
@@ -65,12 +70,14 @@ const movePlayer = (dir) => {
                 if (isExit(dir, playerPos[0], playerPos[1])) {
                     mapArray[playerPos[0]][playerPos[1]] = pathTile;
                     playerPos[0] = playerPos[0] - 1;
+                    steps++;
                     setWin();
                     break;
                 }
 
                 mapArray[playerPos[0]][playerPos[1]] = pathTile;
                 playerPos[0] = playerPos[0] - 1;
+                steps++;
                 break;
 
             case "down":
@@ -84,17 +91,20 @@ const movePlayer = (dir) => {
                 if (isExit(dir, playerPos[0], playerPos[1])) {
                     mapArray[playerPos[0]][playerPos[1]] = pathTile;
                     playerPos[0] = playerPos[0] + 1;
+                    steps++;
                     setWin();
                     break;
                 }
 
                 mapArray[playerPos[0]][playerPos[1]] = pathTile;
                 playerPos[0] = playerPos[0] + 1;
+                steps++;
                 break;
         }
 
         mapArray[playerPos[0]][playerPos[1]] = player;
         printMap();
+        console.log("steps taken: " + steps);
     }
 };
 
