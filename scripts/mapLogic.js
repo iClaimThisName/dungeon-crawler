@@ -72,6 +72,8 @@ const createPath = () => {
     let lastSpot;
     let y = exitCoords[0];
     let x = exitCoords[1];
+    let furthest = [];
+    let diffScore;
     let tileAmount = Math.floor(
         0.5 * ((mapArray.length - 2) * (mapArray[0].length - 2)),
     );
@@ -133,8 +135,6 @@ const createPath = () => {
         }
     };
 
-    const bordersPath = (direction, y, x) => {};
-
     const setDir = () => {
         if (!isFirstMove) {
             do {
@@ -166,6 +166,34 @@ const createPath = () => {
             isFirstMove = false;
         }
     };
+
+    const checkFurthestFromExit = () => {
+        let yDiff;
+        let xDiff;
+
+        if (y > exitCoords[0]) {
+            yDiff = y - exitCoords[0];
+        } else if (y < exitCoords[0]) {
+            yDiff = exitCoords[0] - y;
+        } else {
+            yDiff = 0;
+        }
+
+        if (x > exitCoords[1]) {
+            xDiff = x - exitCoords[1];
+        } else if (y < exitCoords[1]) {
+            xDiff = exitCoords[1] - x;
+        } else {
+            xDiff = 0;
+        }
+
+        if (!diffScore || xDiff + yDiff > diffScore) {
+            furthest[0] = y;
+            furthest[1] = x;
+            diffScore = xDiff + yDiff;
+        }
+    };
+
     const placeTiles = () => {
         for (i = 0; i <= tileAmount; i++) {
             setDir();
@@ -186,18 +214,22 @@ const createPath = () => {
                     break;
             }
 
+            checkFurthestFromExit();
+
             if (i === tileAmount) {
-                mapArray[y][x] = startTile;
-            } else {
-                mapArray[y][x] = pathTile;
+                mapArray[furthest[0]][furthest[1]] = startTile;
             }
+
+            mapArray[y][x] = pathTile;
         }
     };
 
-    placeTiles();
+    const placeStart = () => {
+        mapArray[furthest[0]][furthest[1]] = startTile;
+    };
 
-    //if bordersPath(), change dir one more time (even if it still borders a pathTile)
-    //place the starting tile on the path tile furthest from the exit tile
+    placeTiles();
+    placeStart();
 };
 
 const printMap = () => {
