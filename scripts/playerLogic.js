@@ -12,6 +12,7 @@ const movePlayer = (dir) => {
             case "start":
                 mapArray[playerPos[0]][playerPos[1]] = player;
                 break;
+
             case "left":
                 if (isWall(dir, playerPos[0], playerPos[1])) {
                     console.log(
@@ -30,6 +31,7 @@ const movePlayer = (dir) => {
                 mapArray[playerPos[0]][playerPos[1]] = pathTile;
                 playerPos[1] = playerPos[1] - 1;
                 break;
+
             case "right":
                 if (isWall(dir, playerPos[0], playerPos[1])) {
                     console.log(
@@ -48,6 +50,7 @@ const movePlayer = (dir) => {
                 mapArray[playerPos[0]][playerPos[1]] = pathTile;
                 playerPos[1] = playerPos[1] + 1;
                 break;
+
             case "up":
                 if (isWall(dir, playerPos[0], playerPos[1])) {
                     console.log(
@@ -66,6 +69,7 @@ const movePlayer = (dir) => {
                 mapArray[playerPos[0]][playerPos[1]] = pathTile;
                 playerPos[0] = playerPos[0] - 1;
                 break;
+
             case "down":
                 if (isWall(dir, playerPos[0], playerPos[1])) {
                     console.log(
@@ -118,10 +122,3 @@ document.addEventListener("keydown", (event) => {
 
 movePlayer("start");
 printMap();
-
-//place player at the starting point
-//move when pressing keys
-//when moved, replace the last tile with a path tile
-//if player tries to move into a non-path tile, stop it and log error
-//^^ Except if it's the exit tile, then log "you win!!!"
-//print map after every movement
