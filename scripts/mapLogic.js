@@ -1,12 +1,14 @@
-let wallTile = "W";
-let startTile = "S";
-let exitTile = "E";
-let pathTile = "p";
-let chestTile = "c";
-let monsterTile = "m";
-let emptyTile = "-";
+const player = "P";
+const wallTile = "W";
+const startTile = "S";
+const exitTile = "E";
+const pathTile = "-";
+const chestTile = "c";
+const monsterTile = "m";
+const emptyTile = "n";
 
 let mapArray = [];
+let startCoords;
 let exitCoords;
 
 const createMapArray = (height, width) => {
@@ -66,6 +68,64 @@ const createExit = () => {
     exitCoords = [y, x];
 };
 
+const isWall = (direction, y, x) => {
+    switch (direction) {
+        case "left":
+            if (mapArray[y][x - 1] === wallTile) {
+                return true;
+            } else {
+                return false;
+            }
+        case "right":
+            if (mapArray[y][x + 1] === wallTile) {
+                return true;
+            } else {
+                return false;
+            }
+        case "up":
+            if (mapArray[y - 1][x] === wallTile) {
+                return true;
+            } else {
+                return false;
+            }
+        case "down":
+            if (mapArray[y + 1][x] === wallTile) {
+                return true;
+            } else {
+                return false;
+            }
+    }
+};
+
+const isExit = (direction, y, x) => {
+    switch (direction) {
+        case "left":
+            if (mapArray[y][x - 1] === exitTile) {
+                return true;
+            } else {
+                return false;
+            }
+        case "right":
+            if (mapArray[y][x + 1] === exitTile) {
+                return true;
+            } else {
+                return false;
+            }
+        case "up":
+            if (mapArray[y - 1][x] === exitTile) {
+                return true;
+            } else {
+                return false;
+            }
+        case "down":
+            if (mapArray[y + 1][x] === exitTile) {
+                return true;
+            } else {
+                return false;
+            }
+    }
+};
+
 const createPath = () => {
     let isFirstMove = true;
     let dir;
@@ -94,47 +154,6 @@ const createPath = () => {
         }
     };
 
-    const isWall = (direction, y, x) => {
-        switch (direction) {
-            case "left":
-                if (
-                    mapArray[y][x - 1] === wallTile ||
-                    mapArray[y][x - 1] === exitTile
-                ) {
-                    return true;
-                } else {
-                    return false;
-                }
-            case "right":
-                if (
-                    mapArray[y][x + 1] === wallTile ||
-                    mapArray[y][x + 1] === exitTile
-                ) {
-                    return true;
-                } else {
-                    return false;
-                }
-            case "up":
-                if (
-                    mapArray[y - 1][x] === wallTile ||
-                    mapArray[y - 1][x] === exitTile
-                ) {
-                    return true;
-                } else {
-                    return false;
-                }
-            case "down":
-                if (
-                    mapArray[y + 1][x] === wallTile ||
-                    mapArray[y + 1][x] === exitTile
-                ) {
-                    return true;
-                } else {
-                    return false;
-                }
-        }
-    };
-
     const setDir = () => {
         if (!isFirstMove) {
             do {
@@ -156,7 +175,11 @@ const createPath = () => {
                     case 5:
                         break;
                 }
-            } while (dir === lastSpot || isWall(dir, y, x));
+            } while (
+                dir === lastSpot ||
+                isWall(dir, y, x) ||
+                isExit(dir, y, x)
+            );
         } else {
             exitCoords[0] === 0 ? (dir = "down") : "";
             exitCoords[0] === mapArray.length - 1 ? (dir = "up") : "";
@@ -219,6 +242,7 @@ const createPath = () => {
 
             if (i === tileAmount) {
                 mapArray[furthest[0]][furthest[1]] = startTile;
+                startCoords = furthest;
             }
 
             mapArray[y][x] = pathTile;
@@ -229,14 +253,31 @@ const createPath = () => {
         mapArray[furthest[0]][furthest[1]] = startTile;
     };
 
+    const fillWalls = () => {
+        for (element in mapArray) {
+            let currentRow = element;
+
+            for (element in mapArray[currentRow]) {
+                if (mapArray[currentRow][element] === emptyTile) {
+                    mapArray[currentRow][element] = wallTile;
+                }
+            }
+        }
+    };
+
     placeTiles();
     placeStart();
+    fillWalls();
 };
 
 const printMap = () => {
     const cols = mapArray.length;
     const rows = mapArray[0].length;
     const grid = document.querySelector(".test-map");
+
+    while (grid.lastChild) {
+        grid.removeChild(grid.lastChild);
+    }
 
     grid.style.setProperty("--map-col", cols);
     grid.style.setProperty("--map-row", rows);
@@ -253,6 +294,9 @@ const printMap = () => {
                     newDiv.style.color = "red";
                     break;
                 case startTile:
+                    newDiv.style.color = "blue";
+                    break;
+                case player:
                     newDiv.style.color = "blue";
                     break;
                 case pathTile:
