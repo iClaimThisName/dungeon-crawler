@@ -10,6 +10,56 @@ const setWin = () => {
     gameWon = true;
 };
 
+const setVisibleTiles = () => {
+    //--make every tile except the player black
+    //-- get tiles directly around the player
+    //if not exit, make it white
+    //if exit, make it yellow
+
+    const getChildNum = (rows, items) => {
+        const childNum =
+            Number(mapArray[0].length) * Number(rows) + Number(items);
+        return childNum;
+    };
+
+    const bordersPlayer = (row, element) => {
+        if (
+            mapArray[row][element] ===
+                mapArray[playerPos[0] - 1][playerPos[1]] ||
+            mapArray[row][element] ===
+                mapArray[playerPos[0] + 1][playerPos[1]] ||
+            mapArray[row][element] ===
+                mapArray[playerPos[0]][playerPos[1] - 1] ||
+            mapArray[row][element] === mapArray[playerPos[0]][playerPos[1] + 1]
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    for (element in mapArray) {
+        let currentRow = element;
+
+        for (element in mapArray[currentRow]) {
+            let child = document.querySelector(
+                `#div${getChildNum(currentRow, element)}`,
+            );
+
+            console.log(child);
+
+            if (
+                mapArray[currentRow][element] != player &&
+                bordersPlayer(currentRow, element)
+            ) {
+                child.style.color = "green";
+            } else {
+                child.style.color = "black";
+            }
+        }
+    }
+};
+
 const movePlayer = (dir) => {
     if (!gameWon) {
         switch (dir) {
@@ -104,6 +154,7 @@ const movePlayer = (dir) => {
 
         mapArray[playerPos[0]][playerPos[1]] = player;
         printMap();
+        setVisibleTiles();
         console.log("steps taken: " + steps);
     }
 };
@@ -147,3 +198,4 @@ document.addEventListener("keyup", (event) => {
 
 movePlayer("start");
 printMap();
+setVisibleTiles();

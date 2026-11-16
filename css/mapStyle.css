@@ -25,6 +25,7 @@
 
 .map > div {
     aspect-ratio: 1/1;
+    color: black;
 }
 
 .debug-button {
