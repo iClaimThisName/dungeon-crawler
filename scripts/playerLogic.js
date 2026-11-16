@@ -1,6 +1,9 @@
 let playerPos = startCoords;
 let gameWon = false;
 
+let lastKey;
+let keyDown;
+
 const setWin = () => {
     console.log("You found the exit! Congrats, you win");
     gameWon = true;
@@ -96,28 +99,40 @@ const movePlayer = (dir) => {
 };
 
 document.addEventListener("keydown", (event) => {
-    switch (event.key) {
-        case "ArrowLeft":
-        case "a":
-        case "A":
-            movePlayer("left");
-            break;
-        case "ArrowRight":
-        case "d":
-        case "D":
-            movePlayer("right");
-            break;
-        case "ArrowUp":
-        case "w":
-        case "W":
-            movePlayer("up");
-            break;
-        case "ArrowDown":
-        case "s":
-        case "S":
-            movePlayer("down");
-            break;
+    if (!keyDown) {
+        lastKey = event.key;
+
+        switch (event.key) {
+            case "ArrowLeft":
+            case "a":
+            case "A":
+                movePlayer("left");
+                keyDown = true;
+                break;
+            case "ArrowRight":
+            case "d":
+            case "D":
+                movePlayer("right");
+                keyDown = true;
+                break;
+            case "ArrowUp":
+            case "w":
+            case "W":
+                movePlayer("up");
+                keyDown = true;
+                break;
+            case "ArrowDown":
+            case "s":
+            case "S":
+                movePlayer("down");
+                keyDown = true;
+                break;
+        }
     }
+});
+
+document.addEventListener("keyup", (event) => {
+    event.key === lastKey ? (keyDown = false) : "";
 });
 
 movePlayer("start");
