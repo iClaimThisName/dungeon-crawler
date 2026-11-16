@@ -1,30 +1,9 @@
-:root {
-    --map-col: 1;
-    --map-row: 1;
-}
-
-html {
-    height: 100vh;
-    width: 100vw;
-    margin: 0px;
-    padding: 0px;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    height: 100%;
-    width: 100%;
-    margin: 0px;
-    padding: 0px;
-}
-
 .test {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 50%;
+    width: 50%;
 }
 
 .test-map {
@@ -32,6 +11,13 @@ body {
     grid-template-columns: repeat(var(--map-col), 1fr);
     grid-template-rows: repeat(var(--map-row), 1fr);
 
+    height: 100%;
+    width: 100%;
+
     font-size: 1rem;
     text-align: center;
+}
+
+.test-map > div {
+    aspect-ratio: 1/1;
 }

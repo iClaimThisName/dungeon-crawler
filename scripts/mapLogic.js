@@ -1,8 +1,8 @@
 const player = "P";
-const wallTile = "W";
+const wallTile = "▧";
 const startTile = "S";
 const exitTile = "E";
-const pathTile = "-";
+const pathTile = " ";
 const chestTile = "c";
 const monsterTile = "m";
 const emptyTile = "n";
@@ -273,7 +273,7 @@ const createPath = () => {
 const printMap = () => {
     const cols = mapArray.length;
     const rows = mapArray[0].length;
-    const grid = document.querySelector(".test-map");
+    const grid = document.querySelector(".map");
 
     while (grid.lastChild) {
         grid.removeChild(grid.lastChild);
