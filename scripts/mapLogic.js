@@ -152,7 +152,8 @@ const createPath = () => {
                         dir = "down";
                         break;
                     //make it more likely to move straight
-                    case 4 & 5:
+                    case 4:
+                    case 5:
                         break;
                 }
             } while (dir === lastSpot || isWall(dir, y, x));
