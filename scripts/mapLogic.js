@@ -135,7 +135,7 @@ const createPath = () => {
     let furthest = [];
     let diffScore;
     let tileAmount = Math.floor(
-        0.5 * ((mapArray.length - 2) * (mapArray[0].length - 2)),
+        0.8 * ((mapArray.length - 2) * (mapArray[0].length - 2)),
     );
     console.log("required path tiles: " + tileAmount);
 
