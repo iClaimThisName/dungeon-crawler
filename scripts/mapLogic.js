@@ -289,23 +289,7 @@ const printMap = () => {
         for (element in mapArray[currentRow]) {
             newDiv = document.createElement("div");
             newDiv.textContent = mapArray[currentRow][element];
-            newDiv.setAttribute("id", "div" + i);
-            i++;
-
-            switch (mapArray[currentRow][element]) {
-                case exitTile:
-                    newDiv.style.color = "red";
-                    break;
-                case startTile:
-                    newDiv.style.color = "blue";
-                    break;
-                case player:
-                    newDiv.style.color = "blue";
-                    break;
-                case pathTile:
-                    newDiv.style.color = "gray";
-            }
-
+            newDiv.style.color = "black";
             grid.appendChild(newDiv);
         }
     }

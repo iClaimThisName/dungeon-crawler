@@ -11,10 +11,7 @@ const setWin = () => {
 };
 
 const setVisibleTiles = () => {
-    //--make every tile except the player black
-    //-- get tiles directly around the player
-    //if not exit, make it white
-    //if exit, make it yellow
+    const map = document.querySelector(".map");
 
     const getChildNum = (rows, items) => {
         const childNum =
@@ -22,42 +19,16 @@ const setVisibleTiles = () => {
         return childNum;
     };
 
-    const bordersPlayer = (row, element) => {
-        if (
-            mapArray[row][element] ===
-                mapArray[playerPos[0] - 1][playerPos[1]] ||
-            mapArray[row][element] ===
-                mapArray[playerPos[0] + 1][playerPos[1]] ||
-            mapArray[row][element] ===
-                mapArray[playerPos[0]][playerPos[1] - 1] ||
-            mapArray[row][element] === mapArray[playerPos[0]][playerPos[1] + 1]
-        ) {
-            return true;
-        } else {
-            return false;
-        }
-    };
+    let tileLeft = [playerPos[0], playerPos[1] - 1];
+    let tileRight = [playerPos[0], playerPos[1] + 1];
+    let tileUp = [playerPos[0] - 1, playerPos[1]];
+    let tileDown = [playerPos[0] + 1, playerPos[1]];
 
-    for (element in mapArray) {
-        let currentRow = element;
-
-        for (element in mapArray[currentRow]) {
-            let child = document.querySelector(
-                `#div${getChildNum(currentRow, element)}`,
-            );
-
-            console.log(child);
-
-            if (
-                mapArray[currentRow][element] != player &&
-                bordersPlayer(currentRow, element)
-            ) {
-                child.style.color = "green";
-            } else {
-                child.style.color = "black";
-            }
-        }
-    }
+    map.children[getChildNum(tileLeft[0], tileLeft[1])].style.color = "gray";
+    map.children[getChildNum(tileRight[0], tileRight[1])].style.color = "gray";
+    map.children[getChildNum(tileUp[0], tileUp[1])].style.color = "gray";
+    map.children[getChildNum(tileDown[0], tileDown[1])].style.color = "gray";
+    map.children[getChildNum(playerPos[0], playerPos[1])].style.color = "white";
 };
 
 const movePlayer = (dir) => {
