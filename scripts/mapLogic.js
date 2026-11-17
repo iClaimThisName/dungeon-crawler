@@ -186,7 +186,6 @@ const createPath = () => {
             exitCoords[1] === 0 ? (dir = "right") : "";
             exitCoords[1] === mapArray[0].length - 1 ? (dir = "left") : "";
 
-            console.log("direction to go is: " + dir);
             isFirstMove = false;
         }
     };

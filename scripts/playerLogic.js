@@ -6,6 +6,8 @@ let lastKey;
 let keyDown;
 
 const setWin = () => {
+    printMap();
+    setVisibleTiles();
     console.log("You found the exit! Congrats, you win");
     gameWon = true;
 };
@@ -19,16 +21,51 @@ const setVisibleTiles = () => {
         return childNum;
     };
 
-    let tileLeft = [playerPos[0], playerPos[1] - 1];
-    let tileRight = [playerPos[0], playerPos[1] + 1];
-    let tileUp = [playerPos[0] - 1, playerPos[1]];
-    let tileDown = [playerPos[0] + 1, playerPos[1]];
+    const tiles = [
+        [playerPos[0], playerPos[1]],
+        //direct connection
+        [playerPos[0], playerPos[1] - 1],
+        [playerPos[0], playerPos[1] + 1],
+        [playerPos[0] - 1, playerPos[1]],
+        [playerPos[0] + 1, playerPos[1]],
+        //corners
+        [playerPos[0] - 1, playerPos[1] - 1, "corner"],
+        [playerPos[0] - 1, playerPos[1] + 1, "corner"],
+        [playerPos[0] + 1, playerPos[1] - 1, "corner"],
+        [playerPos[0] + 1, playerPos[1] + 1, "corner"],
+    ];
 
-    map.children[getChildNum(tileLeft[0], tileLeft[1])].style.color = "gray";
-    map.children[getChildNum(tileRight[0], tileRight[1])].style.color = "gray";
-    map.children[getChildNum(tileUp[0], tileUp[1])].style.color = "gray";
-    map.children[getChildNum(tileDown[0], tileDown[1])].style.color = "gray";
-    map.children[getChildNum(playerPos[0], playerPos[1])].style.color = "white";
+    for (element in tiles) {
+        let thisTile = tiles[element];
+
+        if (
+            thisTile[0] > mapArray.length - 1 ||
+            thisTile[1] > mapArray[0].length - 1
+        ) {
+            continue;
+        }
+
+        if (thisTile[0] === playerPos[0] && thisTile[1] === playerPos[1]) {
+            map.children[getChildNum(thisTile[0], thisTile[1])].style.color =
+                "yellow";
+            continue;
+        }
+
+        if (thisTile[0] === exitCoords[0] && thisTile[1] === exitCoords[1]) {
+            map.children[getChildNum(thisTile[0], thisTile[1])].style.color =
+                "blue";
+            continue;
+        }
+
+        if (thisTile[2] === "corner") {
+            map.children[getChildNum(thisTile[0], thisTile[1])].style.color =
+                "#644905";
+            continue;
+        }
+
+        map.children[getChildNum(thisTile[0], thisTile[1])].style.color =
+            "#bb7d0b";
+    }
 };
 
 const movePlayer = (dir) => {
