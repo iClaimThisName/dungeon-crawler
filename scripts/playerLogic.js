@@ -38,13 +38,17 @@ const setVisibleTiles = () => {
     for (element in tiles) {
         let thisTile = tiles[element];
 
+        //out of bounds check
         if (
             thisTile[0] > mapArray.length - 1 ||
-            thisTile[1] > mapArray[0].length - 1
+            thisTile[0] < 0 ||
+            thisTile[1] > mapArray[0].length - 1 ||
+            thisTile[1] < 0
         ) {
             continue;
         }
 
+        //set color of tile
         if (thisTile[0] === playerPos[0] && thisTile[1] === playerPos[1]) {
             map.children[getChildNum(thisTile[0], thisTile[1])].style.color =
                 "yellow";
