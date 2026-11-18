@@ -5,16 +5,17 @@ let steps = 0;
 let lastKey;
 let keyDown;
 
+const map = document.querySelector(".map");
+const textLog = document.querySelector(".log-text-container");
+
 const setWin = () => {
     printMap();
     setVisibleTiles();
-    console.log("You found the exit! Congrats, you win");
+    logAction("win");
     gameWon = true;
 };
 
 const setVisibleTiles = () => {
-    const map = document.querySelector(".map");
-
     const getChildNum = (rows, items) => {
         const childNum =
             Number(mapArray[0].length) * Number(rows) + Number(items);
@@ -72,6 +73,34 @@ const setVisibleTiles = () => {
     }
 };
 
+const logAction = (action) => {
+    newText = document.createElement("div");
+    newText.classList.add("log-text");
+
+    switch (action) {
+        case "object":
+            newText.textContent =
+                "You can't move there, something is in the way";
+            break;
+        case "left":
+            newText.textContent = "You move left";
+            break;
+        case "right":
+            newText.textContent = "You move right";
+            break;
+        case "up":
+            newText.textContent = "You move up";
+            break;
+        case "down":
+            newText.textContent = "You move down";
+            break;
+        case "win":
+            newText.textContent = "Congrats, you found the exit! You win!";
+    }
+
+    textLog.insertBefore(newText, textLog.firstChild);
+};
+
 const movePlayer = (dir) => {
     if (!gameWon) {
         switch (dir) {
@@ -81,9 +110,7 @@ const movePlayer = (dir) => {
 
             case "left":
                 if (isWall(dir, playerPos[0], playerPos[1])) {
-                    console.log(
-                        "You can't move there, something is in the way",
-                    );
+                    logAction("object");
                     break;
                 }
 
@@ -91,6 +118,7 @@ const movePlayer = (dir) => {
                     mapArray[playerPos[0]][playerPos[1]] = pathTile;
                     playerPos[1] = playerPos[1] - 1;
                     steps++;
+                    logAction(dir);
                     setWin();
                     break;
                 }
@@ -98,13 +126,12 @@ const movePlayer = (dir) => {
                 mapArray[playerPos[0]][playerPos[1]] = pathTile;
                 playerPos[1] = playerPos[1] - 1;
                 steps++;
+                logAction(dir);
                 break;
 
             case "right":
                 if (isWall(dir, playerPos[0], playerPos[1])) {
-                    console.log(
-                        "You can't move there, something is in the way",
-                    );
+                    logAction("object");
                     break;
                 }
 
@@ -112,6 +139,7 @@ const movePlayer = (dir) => {
                     mapArray[playerPos[0]][playerPos[1]] = pathTile;
                     playerPos[1] = playerPos[1] + 1;
                     steps++;
+                    logAction(dir);
                     setWin();
                     break;
                 }
@@ -119,13 +147,12 @@ const movePlayer = (dir) => {
                 mapArray[playerPos[0]][playerPos[1]] = pathTile;
                 playerPos[1] = playerPos[1] + 1;
                 steps++;
+                logAction(dir);
                 break;
 
             case "up":
                 if (isWall(dir, playerPos[0], playerPos[1])) {
-                    console.log(
-                        "You can't move there, something is in the way",
-                    );
+                    logAction("object");
                     break;
                 }
 
@@ -133,6 +160,7 @@ const movePlayer = (dir) => {
                     mapArray[playerPos[0]][playerPos[1]] = pathTile;
                     playerPos[0] = playerPos[0] - 1;
                     steps++;
+                    logAction(dir);
                     setWin();
                     break;
                 }
@@ -140,13 +168,12 @@ const movePlayer = (dir) => {
                 mapArray[playerPos[0]][playerPos[1]] = pathTile;
                 playerPos[0] = playerPos[0] - 1;
                 steps++;
+                logAction(dir);
                 break;
 
             case "down":
                 if (isWall(dir, playerPos[0], playerPos[1])) {
-                    console.log(
-                        "You can't move there, something is in the way",
-                    );
+                    logAction("object");
                     break;
                 }
 
@@ -154,6 +181,7 @@ const movePlayer = (dir) => {
                     mapArray[playerPos[0]][playerPos[1]] = pathTile;
                     playerPos[0] = playerPos[0] + 1;
                     steps++;
+                    logAction(dir);
                     setWin();
                     break;
                 }
@@ -161,6 +189,7 @@ const movePlayer = (dir) => {
                 mapArray[playerPos[0]][playerPos[1]] = pathTile;
                 playerPos[0] = playerPos[0] + 1;
                 steps++;
+                logAction(dir);
                 break;
         }
 

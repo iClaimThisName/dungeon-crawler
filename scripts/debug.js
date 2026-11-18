@@ -1,6 +1,5 @@
 const debugButton = document.querySelector(".debug-button");
-const map = document.querySelector(".map");
-let isDebugMode = true;
+let isDebugMode = false;
 
 const checkMode = () => {
     if (isDebugMode) {
