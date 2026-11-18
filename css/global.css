@@ -3,7 +3,13 @@
     --map-row: 1;
 
     --color-bg: black;
+    --color-bg2: rgb(20, 20, 20);
+    --color-bg3: rgb(19, 20, 19);
     --color-main: #8afc73;
+    --color-secondary: #52b23f;
+    --color-tertiary: #206811;
+
+    --color-none: rgba(255, 255, 255, 0);
 }
 
 html {
@@ -25,4 +31,9 @@ body {
     align-content: center;
 
     background-color: var(--color-bg);
+}
+
+@font-face {
+    font-family: fallout;
+    src: url(../fonts/fallout.ttf);
 }

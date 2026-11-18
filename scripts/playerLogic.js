@@ -7,6 +7,15 @@ let keyDown;
 
 const map = document.querySelector(".map");
 const textLog = document.querySelector(".log-text-container");
+const stepCounter = document.querySelector(".log-steps");
+const buttonLeft = document.querySelector(".controls-item.left");
+const buttonRight = document.querySelector(".controls-item.right");
+const buttonUp = document.querySelector(".controls-item.up");
+const buttonDown = document.querySelector(".controls-item.down");
+
+const colorMain = "#8afc73";
+const colorSecondary = "#52b23f";
+const colorTertiary = "#206811";
 
 const setWin = () => {
     printMap();
@@ -52,24 +61,31 @@ const setVisibleTiles = () => {
         //set color of tile
         if (thisTile[0] === playerPos[0] && thisTile[1] === playerPos[1]) {
             map.children[getChildNum(thisTile[0], thisTile[1])].style.color =
-                "yellow";
+                colorMain;
+            map.children[getChildNum(thisTile[0], thisTile[1])].style.zIndex =
+                2;
             continue;
         }
 
         if (thisTile[0] === exitCoords[0] && thisTile[1] === exitCoords[1]) {
             map.children[getChildNum(thisTile[0], thisTile[1])].style.color =
-                "blue";
+                colorMain;
+            map.children[getChildNum(thisTile[0], thisTile[1])].style.zIndex =
+                2;
             continue;
         }
 
         if (thisTile[2] === "corner") {
             map.children[getChildNum(thisTile[0], thisTile[1])].style.color =
-                "#644905";
+                colorTertiary;
+            map.children[getChildNum(thisTile[0], thisTile[1])].style.zIndex =
+                2;
             continue;
         }
 
         map.children[getChildNum(thisTile[0], thisTile[1])].style.color =
-            "#bb7d0b";
+            colorSecondary;
+        map.children[getChildNum(thisTile[0], thisTile[1])].style.zIndex = 2;
     }
 };
 
@@ -78,6 +94,10 @@ const logAction = (action) => {
     newText.classList.add("log-text");
 
     switch (action) {
+        case "start":
+            newText.textContent =
+                "You wake up in a dark place surrounded by stone walls. You don't know where you are but one thing is for certain: you need to get out ASAP";
+            break;
         case "object":
             newText.textContent =
                 "You can't move there, something is in the way";
@@ -96,9 +116,14 @@ const logAction = (action) => {
             break;
         case "win":
             newText.textContent = "Congrats, you found the exit! You win!";
+            break;
     }
 
     textLog.insertBefore(newText, textLog.firstChild);
+};
+
+const updateSteps = () => {
+    stepCounter.textContent = "steps taken: " + steps;
 };
 
 const movePlayer = (dir) => {
@@ -106,6 +131,7 @@ const movePlayer = (dir) => {
         switch (dir) {
             case "start":
                 mapArray[playerPos[0]][playerPos[1]] = player;
+                logAction("start");
                 break;
 
             case "left":
@@ -196,6 +222,7 @@ const movePlayer = (dir) => {
         mapArray[playerPos[0]][playerPos[1]] = player;
         printMap();
         setVisibleTiles();
+        updateSteps();
         console.log("steps taken: " + steps);
     }
 };
@@ -235,6 +262,19 @@ document.addEventListener("keydown", (event) => {
 
 document.addEventListener("keyup", (event) => {
     event.key === lastKey ? (keyDown = false) : "";
+});
+
+buttonLeft.addEventListener("click", (event) => {
+    movePlayer("left");
+});
+buttonRight.addEventListener("click", (event) => {
+    movePlayer("right");
+});
+buttonUp.addEventListener("click", (event) => {
+    movePlayer("up");
+});
+buttonDown.addEventListener("click", (event) => {
+    movePlayer("down");
 });
 
 movePlayer("start");
