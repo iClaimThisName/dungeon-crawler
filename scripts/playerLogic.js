@@ -90,13 +90,23 @@ const setVisibleTiles = () => {
 };
 
 const logAction = (action) => {
-    newText = document.createElement("div");
+    let newText = document.createElement("div");
     newText.classList.add("log-text");
 
     switch (action) {
         case "start":
             newText.textContent =
-                "You wake up in a dark place surrounded by stone walls. You don't know where you are but one thing is for certain: you need to get out ASAP";
+                "You wake up in a dark place surrounded by stone walls.";
+
+            let newText2 = document.createElement("div");
+            newText2.classList.add("log-text");
+            newText2.textContent =
+                "You don't know where you are but one thing is for certain: you need to get out ASAP";
+
+            setTimeout(() => {
+                textLog.insertBefore(newText2, textLog.firstChild);
+            }, 2000);
+
             break;
         case "object":
             newText.textContent =
