@@ -77,3 +77,9 @@
         font-size: calc(0.5vw + 0.4rem);
     }
 }
+
+@media (max-height: 500px) {
+    .map-container {
+        grid-area: 1 / 2 / span 2;
+    }
+}
