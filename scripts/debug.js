@@ -1,5 +1,9 @@
-const debugButton = document.querySelector(".debug-button");
+const debugButton = document.querySelector(".debug");
 let isDebugMode = false;
+
+const unCheck = () => {
+    debugButton.checked = false;
+};
 
 const checkMode = () => {
     if (isDebugMode) {
@@ -10,10 +14,10 @@ const checkMode = () => {
 };
 
 checkMode();
+unCheck();
 
-debugButton.addEventListener("click", (event) => {
-    console.log("clicked button");
-    if (!isDebugMode) {
+debugButton.addEventListener("change", (event) => {
+    if (event.target.checked) {
         isDebugMode = true;
         checkMode();
     } else {

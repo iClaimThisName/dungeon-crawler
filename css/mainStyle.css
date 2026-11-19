@@ -76,7 +76,14 @@ main {
     overflow-y: scroll;
 }
 
+.spacemaker {
+    width: 100%;
+    height: 30%;
+    flex-shrink: 0;
+}
+
 .log-text {
+    margin-right: 10%;
     font-size: calc(0.5vw + 0.5rem);
     color: var(--color-main);
     font-family: fallout, Arial, Helvetica, sans-serif;
@@ -85,6 +92,7 @@ main {
 
 .controls-container {
     display: flex;
+    position: relative;
     overflow-y: hidden;
     justify-content: center;
 }
@@ -130,9 +138,81 @@ main {
     }
 }
 
-.info-container {
-    font-size: calc(0.5vw + 0.5rem);
+.debug {
+    position: absolute;
+    top: 0;
+    left: 5%;
+
+    font-size: calc(0.3vw + 0.3rem);
     color: var(--color-main);
     font-family: fallout, Arial, Helvetica, sans-serif;
     text-shadow: 0 0 10px var(--color-main);
+}
+
+input[type="checkbox"] {
+    opacity: 0.2;
+}
+
+input:checked {
+    opacity: 1;
+    border: none;
+    accent-color: var(--color-main);
+    box-shadow: 0 0 5px var(--color-main);
+}
+
+.info-container {
+    height: 100%;
+    width: 90%;
+}
+
+.info-text {
+    font-size: calc(0.5vw + 0.3rem);
+    color: var(--color-main);
+    font-family: fallout, Arial, Helvetica, sans-serif;
+    text-shadow: 0 0 10px var(--color-main);
+
+    &.title {
+        font-size: calc(1vw + 0.5rem);
+        text-transform: uppercase;
+    }
+
+    &.subtitle {
+        font-size: calc(0.5vw + 0.3rem);
+    }
+}
+
+.divider {
+    margin-top: 5px;
+    border: solid 1px;
+    border-color: var(--color-main);
+    border-radius: 1%;
+    box-shadow: 0 0 5px var(--color-main);
+    opacity: 0.6;
+}
+
+@media (max-width: 500px) {
+    main {
+        grid-template: 1fr 3fr 2fr 2fr / 1fr;
+        max-height: 100vh;
+        aspect-ratio: unset;
+    }
+
+    .info-container {
+        display: flex;
+        flex-flow: column;
+        grid-area: 1 / 1;
+        text-align: center;
+        justify-content: center;
+        margin: auto;
+        padding-inline: 10%;
+        padding-top: 2rem;
+    }
+
+    .info-text {
+        font-size: calc(0.5vw + 0.4rem);
+    }
+
+    .controls-container {
+        padding-top: 16px;
+    }
 }

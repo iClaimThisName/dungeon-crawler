@@ -71,3 +71,9 @@
         cursor: pointer;
     }
 }
+
+@media (max-width: 500px) {
+    .map {
+        font-size: calc(0.5vw + 0.4rem);
+    }
+}
