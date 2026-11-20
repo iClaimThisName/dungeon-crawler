@@ -195,11 +195,16 @@ input:checked {
     main {
         grid-template: 1fr 3fr 2fr 2fr / 1fr;
         max-height: 100vh;
+        width: 95%;
         aspect-ratio: unset;
     }
 
     .log-container {
         aspect-ratio: unset;
+    }
+
+    .log-text {
+        font-size: calc(0.5vh + 0.3rem);
     }
 
     .info-container {
@@ -210,15 +215,19 @@ input:checked {
         justify-content: center;
         margin: auto;
         padding-inline: 10%;
-        padding-top: 2rem;
+        padding-top: 2vh;
     }
 
     .info-text {
-        font-size: calc(0.5vw + 0.4rem);
+        font-size: calc(0.5vh + 0.2rem);
     }
 
     .controls-container {
         padding-top: 16px;
+    }
+
+    .controls {
+        height: 80%;
     }
 }
 
@@ -226,6 +235,7 @@ input:checked {
     main {
         grid-template: 1fr 1fr / 1fr 4fr 4fr;
         width: 100%;
+        max-width: unset;
         margin-inline: 2%;
         height: 100vh;
         aspect-ratio: unset;
