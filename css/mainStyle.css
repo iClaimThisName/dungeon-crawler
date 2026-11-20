@@ -1,6 +1,6 @@
 main {
     display: grid;
-    grid-template: 2fr 1fr / 1fr 1fr;
+    grid-template: 5fr 3fr / 1fr 1fr;
 
     margin: auto;
     min-width: 70%;
@@ -11,7 +11,8 @@ main {
 
 .log-container {
     display: flex;
-    height: 100%;
+    width: 100%;
+    aspect-ratio: 1/1;
     justify-content: center;
     align-items: center;
     overflow-y: hidden;
@@ -197,6 +198,10 @@ input:checked {
         aspect-ratio: unset;
     }
 
+    .log-container {
+        aspect-ratio: unset;
+    }
+
     .info-container {
         display: flex;
         flex-flow: column;
@@ -238,6 +243,7 @@ input:checked {
     }
 
     .log-container {
+        aspect-ratio: unset;
         margin-top: 10px;
     }
 
